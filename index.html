@@ -1,0 +1,181 @@
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+HTML = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love You Mahiya ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffc3a0);
+}
+
+.card {
+    width: 90%;
+    max-width: 650px;
+    padding: 40px 15px;
+    text-align: center;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.25);
+    border: 2px solid rgba(255,255,255,0.6);
+    box-shadow: 0 10px 40px rgba(180,0,70,0.25);
+    backdrop-filter: blur(10px);
+    z-index: 2;
+}
+
+.heart {
+    font-size: 75px;
+    animation: heartbeat 1s infinite;
+}
+
+h1 {
+    color: white;
+    font-size: clamp(35px, 8vw, 65px);
+    margin: 20px 0;
+    text-shadow: 3px 3px 10px #ff1765;
+    animation: glow 2s infinite alternate;
+}
+
+.name {
+    color: #fff200;
+    font-size: clamp(35px, 9vw, 75px);
+    font-weight: bold;
+    text-shadow: 3px 3px 12px #ff0066;
+}
+
+p {
+    color: white;
+    font-size: 22px;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+button {
+    background: #ff1765;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 5px 20px #ff1765;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background: #e60052;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 23px;
+    color: white;
+    font-weight: bold;
+}
+
+.floating {
+    position: absolute;
+    bottom: -50px;
+    animation: floatUp linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff1765; }
+    to { text-shadow: 0 0 30px #ffffff, 0 0 45px #ff1765; }
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="heart">❤️</div>
+
+    <h1>I Love You</h1>
+    <div class="name">Mahiya 💖</div>
+
+    <p>
+        তুমি আমার হৃদয়ের সবচেয়ে সুন্দর অনুভূতি 🥰<br>
+        তুমি থাকো আমার প্রতিটি স্বপ্নে 💕
+    </p>
+
+    <button onclick="showLove()">Click For Love 💌</button>
+
+    <div id="message"></div>
+</div>
+
+<script>
+function showLove() {
+    document.getElementById("message").innerHTML =
+        "I Love You So Much, Mahiya! ❤️😘💋💕";
+    
+    for (let i = 0; i < 25; i++) {
+        createHeart();
+    }
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "floating";
+    heart.innerHTML = ["❤️", "💖", "💕", "💗", "🥰", "💋"][
+        Math.floor(Math.random() * 6)
+    ];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (20 + Math.random() * 30) + "px";
+    heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+}
+
+setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>
+"""
+
+@app.route("/")
+def home():
+    return render_template_string(HTML)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=False)
